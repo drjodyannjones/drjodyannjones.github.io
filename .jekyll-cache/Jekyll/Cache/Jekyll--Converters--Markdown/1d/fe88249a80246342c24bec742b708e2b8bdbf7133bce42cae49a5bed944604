@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<title>About | Dr. Jody-Ann S. Jones</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Dr. Jody-Ann S. Jones">
-<meta name="generator" content="Jekyll v4.2.2">
-<link rel="canonical" href="http://localhost:4000/about/">
-
-<link rel="stylesheet" href="/assets/css/frame.css">
-
-<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Dr. Jody-Ann S. Jones">
-
-
-
-
-
-
-
-<header>
-  <a href="/" class="title">Dr. Jody-Ann S. Jones</a>
-  <nav><a href="/" >Home</a><a href="/about/" class="selected">About</a></nav>
-
-</header>
-
-<article>
-  <header><h1><a href="/about/">About</a></h1></header>
-  <h1 id="hello-i-am-jody-">Hello, I am Jody 👋</h1>
+I"p<h1 id="hello-i-am-jody-">Hello, I am Jody 👋</h1>
 
 <p><a href="https://www.credly.com/badges/1a73db63-aae9-4f3f-b33a-a7ed8147691a/public_url">
     <img src="https://images.credly.com/size/680x680/images/778bde6c-ad1c-4312-ac33-2fa40d50a147/image.png" alt="Credly Badge" width="300" height="300" />
@@ -42,16 +15,4 @@
 <p>✏️ I am an active contributor to the data science community, regularly sharing my knowledge through <a href="https://drjodyannjones.medium.com/" target="\_blank">online blogs</a> and contributing to projects on GitHub.</p>
 
 <p>🎯 In every endeavor, I bring my commitment to excellence, my eagerness for innovative solutions, and my unyielding drive to turn data into actionable wisdom. As a confident, forward-thinking leader in the data science field, I am always ready for the next challenge. 🚀</p>
-
-</article>
-
-
-
-<footer>
-  <div>Made with <b style="color: #f45;">&lt;3</b></div>
-  <nav><a href="mailto:drjodyannjones@gmail.com" ><svg aria-label="Mail" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#envelope"></use></svg></a><a href="https://github.com/drjodyannjones" ><svg aria-label="Github" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#github"></use></svg></a><a href="https://medium.com/@drjodyannjones" ><svg aria-label="Medium" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#medium"></use></svg></a></nav>
-
-</footer>
-
-
-</html>
+:ET

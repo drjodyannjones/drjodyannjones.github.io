@@ -4,96 +4,20 @@ permalink: "/about/"
 layout: page
 ---
 
-## Installation
+# Hello, I am Jody 👋
 
-Just fork this [repository](https://github.com/niklasbuschmann/contrast) and adjust the `_config.yml` to use with [Github Pages](https://pages.github.com/) and your page is done.
+<a href="https://www.credly.com/badges/1a73db63-aae9-4f3f-b33a-a7ed8147691a/public_url">
+    <img src="https://images.credly.com/size/680x680/images/778bde6c-ad1c-4312-ac33-2fa40d50a147/image.png" alt="Credly Badge" width="300" height="300"/>
+</a>
 
-## Features
+I am the Data Sensei, an MLOps Engineer, Data Scientist, and Systems Thinker. My expertise lies in constructing predictive analytics systems that empower organizations to extract valuable insights into the pivotal factors contributing to long-term growth.
 
- - supports dark mode on macOS Mojave
- - optional sidebar
- - MathJax support
- - no external ressources
- - included archive page
- - supports pagination
- - feed generation
- - responsive
- - syntax highlighting
- - supports comments via [disqus](https://disqus.com/) or [isso](http://posativ.org/isso/)
+🏆 An accomplished Data Science leader, I bring over 12 years of progressive experience in quantative research, teaching, and industry. I combine sharp business acumen with rigorous analytical research to deliver impactful data-driven results for my clients. I've successfully steered numerous projects, deploying robust machine learning models and advanced data analysis to drive strategic decision-making and resolve complex business challenges.
 
-## Based on
+📊 My strength lies in my ability to unravel the intricate story hidden within data, transforming abstract patterns into tangible recommendations that propel organizational strategies forward. I excel at communicating these insights, ensuring a clear understanding across diverse business audiences, and aligning technology with end-to-end project processes and business plans.
 
-- [Hyde](https://github.com/poole/hyde)
-- [Minima](https://github.com/jekyll/minima)
-- [Lagrange](https://github.com/LeNPaul/Lagrange)
-- [Font Awesome](http://fontawesome.io/)
-- [KaTeX](https://katex.org/)
-- [Pygments](https://github.com/richleland/pygments-css)
+👏 Beyond my individual contributions, I take pride in fostering the growth of others. I've cultivated high-performing Data Analytics teams, nurturing their development through effective leadership and training.
 
-## Installation (jekyll-remote-theme method)
+✏️ I am an active contributor to the data science community, regularly sharing my knowledge through [online blogs](https://drjodyannjones.medium.com/){:target="\_blank"} and contributing to projects on GitHub.
 
-You can use this theme with the `jekyll-remote-theme` plugin. Just create an empty repo, copy over the `index.html` file and add this to your `_config.yml`:
-
-```yaml
-remote_theme: niklasbuschmann/contrast@v2.11
-
-plugins:
-  - jekyll-remote-theme
-```
-
-Note: to enable icons you also need to copy over the `_data` folder.
-
-## Config
-
-Your `_config.yml` could for example look like this:
-
-```yaml
-title: "Blog Title"
-author: "Blog Author"
-description: "My personal blog about ... something"
-permalink: /:title/
-lang: "en"
-excerpt_separator: "\n\n\n"
-date_format: "%B %d, %Y"
-
-# Layout
-
-show_excerpts: true        # show article excerpts on the home page
-show_frame: true           # adds a gray frame to the site
-show_sidebar: false        # show a sidebar instead of the usual header
-
-# Menu
-
-navigation:                # accepts {file, title, url, icon, sidebaricon}
-  - {file: "index.html"}
-  - {file: "README.md"}
-
-external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
-  - {title: Mail, icon: envelope, url: "mailto:niklasbuschmann@users.noreply.github.com"}
-  - {title: Github, icon: github, url: "https://github.com/niklasbuschmann/contrast"}
-  - {title: Subscribe, icon: rss, url: "/feed.xml"}
-
-comments:
-#  disqus_shortname: ""    # see https://disqus.com/
-#  isso_domain: ""         # see https://posativ.org/isso/
-
-plugins:
- - jekyll-feed
-
-```
-
-## MathJax
-
-Contrast comes preinstalled with a leightweight alternative to MathJax called [KaTeX](https://katex.org/). To display equations in a post simply set `mathjax: true` in the article's front matter.
-
-## License
-
-[public domain](http://unlicense.org/)
-
-## Screenshots
-
-![screenshot](https://user-images.githubusercontent.com/4943215/109431850-cd711780-7a08-11eb-8601-2763f2ee6bb4.png)
-
-![screenshot](https://user-images.githubusercontent.com/4943215/109431832-b6cac080-7a08-11eb-9c5e-a058680c23a1.png)
-
-![screenshot](https://user-images.githubusercontent.com/4943215/73125194-5f0b8b80-3fa4-11ea-805c-8387187503ad.png)
+🎯 In every endeavor, I bring my commitment to excellence, my eagerness for innovative solutions, and my unyielding drive to turn data into actionable wisdom. As a confident, forward-thinking leader in the data science field, I am always ready for the next challenge. 🚀
