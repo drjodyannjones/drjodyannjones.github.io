@@ -1,0 +1,62 @@
+I"�<p>This project aims to classify chest CT scans into different categories, such as adenocarcinoma and normal cases, using deep learning techniques. The model is built using TensorFlow and trained on a variety of chest CT images to achieve high accuracy and performance. The comprehensive details of this project can be explored on my <a href="https://github.com/drjodyannjones/End-to-End-Cancer-Classification-Project" target="\_blank">GitHub repository</a>.</p>
+
+<h3 id="project-overview">Project Overview</h3>
+
+<p>I designed the “End-to-End Cancer Classification Project” to apply deep learning algorithms in the accurate classification of medical imaging, thereby increasing diagnostic precision. This system is intended to assist healthcare professionals by providing quicker and more accurate assessments, which are crucial in the treatment planning stages. The frontend framework was created with Gradio. Gradio provides a clean, easy-to-use, drag and drop interface, where users can either upload an image or copy and paste from the web or their local file storage system.</p>
+
+<p>You may the view the app’s screenshot by clicking the following link:
+<a href="https://i.imgur.com/bnbgOpb.png">Screenshot: Chest CT Scan Classifier</a></p>
+
+<h3 id="technologies-employed">Technologies Employed</h3>
+
+<ul>
+  <li><strong>Python:</strong> I used Python for developing machine learning algorithms and for data manipulation.</li>
+  <li><strong>TensorFlow and Keras:</strong> These tools were essential in building and training the deep learning models.</li>
+  <li><strong>OpenCV:</strong> This library was utilized for processing images, preparing them for the training process.</li>
+  <li><strong>Jupyter Notebook:</strong> I documented the development and testing phases using Jupyter Notebook, which facilitated a clear presentation of the methodologies and results.</li>
+  <li><strong>Gradio:</strong> I used Gradio to create the frontend framework.</li>
+  <li><strong>MLFlow</strong> I used MLFlow for experiment tracking.</li>
+  <li><strong>DVC</strong> I used DVC for data version tracking and control.</li>
+</ul>
+
+<h3 id="execution-instructions">Execution Instructions</h3>
+
+<p>Interested parties can replicate or review the project by following these steps:</p>
+
+<ol>
+  <li>Clone the repository: <code class="language-plaintext highlighter-rouge">git clone https://github.com/drjodyannjones/End-to-End-Cancer-Classification-Project.git</code></li>
+  <li>Navigate to the project directory and install necessary dependencies: <code class="language-plaintext highlighter-rouge">pip install -r requirements.txt</code></li>
+  <li>Open the Jupyter notebooks to view detailed experiments and outcomes.</li>
+</ol>
+
+<h3 id="sample-code-snippet-predictionpy">Sample Code Snippet: prediction.py</h3>
+
+<p>Below is a sample code snippet from the project, illustrating the loading of the trained tensorflow model and the logic used to generate predictions.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">load_model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.preprocessing</span> <span class="kn">import</span> <span class="n">image</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">class</span> <span class="nc">PredictionPipeline</span><span class="p">:</span>
+<span class="k">def</span> <span class="err">**</span><span class="nf">init</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="s">"artifacts"</span><span class="p">,</span> <span class="s">"training"</span><span class="p">,</span> <span class="s">"model.h5"</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">test_image</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">load_img</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+            <span class="n">test_image</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">test_image</span><span class="p">)</span>
+            <span class="n">test_image</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test_image</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_image</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">prediction</span> <span class="o">=</span> <span class="s">"Normal"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">prediction</span> <span class="o">=</span> <span class="s">"Adenocarcinoma Cancer"</span>
+
+            <span class="k">return</span> <span class="p">[{</span><span class="s">"image"</span><span class="p">:</span> <span class="n">prediction</span><span class="p">}]</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Error during prediction: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[{</span><span class="s">"image"</span><span class="p">:</span> <span class="s">"Prediction error"</span><span class="p">}]</span></code></pre></figure>
+
+:ET

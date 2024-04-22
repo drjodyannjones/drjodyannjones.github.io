@@ -1,0 +1,49 @@
+I"<p>In this application, I developed an end to end data engineering pipeline that extracts real estate listings from <a href="https://www.zoopla.co.uk/" target="\_blank">Zoopla</a> using the BrightData API of a comprehensive data engineering solution aimed at optimizing real estate market analysis. You can delve into the complete details by visiting my <a href="https://github.com/drjodyannjones/RealEstateDataEngineering" target="\_blank">GitHub repository</a>.</p>
+
+<h3 id="project-overview">Project Overview</h3>
+
+<p>The “Real Estate Data Engineering” project utilizes advanced data processing techniques to derive actionable insights from extensive real estate data sets. This initiative supports stakeholders by providing enhanced data-driven decision-making capabilities.</p>
+
+<h3 id="technologies-employed">Technologies Employed</h3>
+
+<ul>
+  <li><strong>Python:</strong> Used for scripting data collection, transformation, and aggregation processes.</li>
+  <li><strong>Apache Spark:</strong> Employed to efficiently manage large-scale data processing.</li>
+  <li><strong>PostgreSQL:</strong> Utilized for structured data storage and executing complex queries.</li>
+  <li><strong>Docker:</strong> Applied to containerize the development environment to ensure consistency across different platforms.</li>
+</ul>
+
+<h3 id="execution-instructions">Execution Instructions</h3>
+
+<p>To engage with this project, follow these steps:</p>
+
+<ol>
+  <li>Clone the repository: <code class="language-plaintext highlighter-rouge">git clone https://github.com/drjodyannjones/RealEstateDataEngineering.git</code></li>
+  <li>Ensure Docker is installed on your machine and run the container setup included in the repository.</li>
+  <li>Execute the data processing scripts using Apache Spark to observe the workflow and results.</li>
+</ol>
+
+<h3 id="sample-code-snippet">Sample Code Snippet</h3>
+
+<p>Here is an example demonstrating a pivotal part of the data processing workflow using Apache Spark:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="c1"># Initializing Spark session for data processing
+</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Real Estate Data Processing"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="c1"># Data loading and transformation
+</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">csv</span><span class="p">(</span><span class="s">"data/real_estate_data.csv"</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"Price_per_sq_ft"</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s">'Price'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s">'Square_Feet'</span><span class="p">])</span>
+
+<span class="c1"># Aggregating data to gain insights
+</span>
+<span class="n">aggregated_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s">"City"</span><span class="p">).</span><span class="n">avg</span><span class="p">(</span><span class="s">"Price_per_sq_ft"</span><span class="p">)</span>
+
+<span class="c1"># Outputting processed data for further analysis
+</span>
+<span class="n">aggregated_data</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"jdbc"</span><span class="p">).</span><span class="n">option</span><span class="p">(</span><span class="s">"url"</span><span class="p">,</span> <span class="s">"jdbc:postgresql://localhost:5432/realestate"</span><span class="p">).</span><span class="n">option</span><span class="p">(</span><span class="s">"dbtable"</span><span class="p">,</span> <span class="s">"citywise_price_analysis"</span><span class="p">).</span><span class="n">option</span><span class="p">(</span><span class="s">"user"</span><span class="p">,</span> <span class="s">"user"</span><span class="p">).</span><span class="n">option</span><span class="p">(</span><span class="s">"password"</span><span class="p">,</span> <span class="s">"password"</span><span class="p">).</span><span class="n">save</span><span class="p">()</span></code></pre></figure>
+
+:ET

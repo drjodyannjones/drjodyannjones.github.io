@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Streaming Real Estate Data Engineering Application | Dr. Jody-Ann S. Jones</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Dr. Jody-Ann S. Jones">
+<meta name="generator" content="Jekyll v4.2.2">
+<link rel="canonical" href="http://localhost:4000/real-estate-data-engineering/">
+
+<link rel="stylesheet" href="/assets/css/frame.css">
+
+<link rel="alternate" href="/feed.xml" type="application/atom+xml" title="Dr. Jody-Ann S. Jones">
+
+
+
+
+
+
+
+<header>
+  <a href="/" class="title">Dr. Jody-Ann S. Jones</a>
+  <nav><a href="/" >Home</a><a href="/about/" >About</a></nav>
+
+</header>
+
+<article>
+  <header>
+  <h1><a href="/real-estate-data-engineering/">Streaming Real Estate Data Engineering Application</a></h1><time datetime="2024-04-21T00:00:00+02:00">April 21, 2024</time>
+</header>
+
+  <p>In this project, I designed and implemented a real-time streaming end-to-end data engineering pipeline that captures real estate listings from <a href="https://www.zoopla.co.uk/" target="\_blank">Zoopla</a> using the <a href="https://brightdata.com/" target="\_blank">BrightData API</a>. The data flows through a Kafka cluster, a message broker, which effectively manages the movement of data from the source to the storage system (sink), in this case, Cassandra DB. Utilizing Apache Spark, the pipeline handles large-scale data processing efficiently. This setup is specifically engineered to optimize real estate market analysis, providing a robust tool for dynamic and precise market evaluation. For an in-depth look at the project, you are welcome to visit my <a href="https://github.com/drjodyannjones/RealEstateDataEngineering" target="\_blank">GitHub repository</a>.</p>
+
+<h3 id="project-overview">Project Overview</h3>
+
+<p>The <strong>Real Estate Data Engineering</strong> project leverages cutting-edge data processing technologies to generate actionable insights from comprehensive real estate datasets. This initiative enhances decision-making capabilities for stakeholders by providing sophisticated tools for analyzing market trends, property valuations, and investment opportunities in real-time. By integrating real-time data streaming with advanced analytical processes, this project supports a wide range of applications, including:</p>
+
+<ul>
+  <li><strong>Market Trend Analysis</strong>: Analysts can detect market shifts and emerging trends as they happen, enabling faster strategic responses.</li>
+  <li><strong>Investment Decision Support</strong>: Investors gain access to up-to-date information on property values and market conditions, aiding in better investment choices.</li>
+  <li><strong>Portfolio Management</strong>: Real estate companies can manage their assets more effectively by having current data at their fingertips, facilitating better operational and financial decisions.</li>
+  <li><strong>Risk Management</strong>: By analyzing current and historical data trends, risks associated with investments can be better assessed and mitigated.</li>
+</ul>
+
+<p>This project exemplifies the power of integrating multiple technologies to transform raw data into a valuable strategic asset, driving forward the capabilities of real estate market analytics.</p>
+
+<h3 id="technologies-employed">Technologies Employed</h3>
+
+<ul>
+  <li><strong>Python:</strong> Used for scripting data collection, transformation, and aggregation processes.</li>
+  <li><strong>Apache Spark:</strong> Employed to efficiently manage large-scale data processing.</li>
+  <li><strong>Docker:</strong> Applied to containerize the development environment to ensure consistency across different platforms.</li>
+  <li><strong>Apache Kafka</strong> A cluster of Apache Kafka brokers used as the conduit to transmit data from the source to sink with low latency.</li>
+  <li><strong>Brightdata API</strong> I setup a Brightdata web scraper to seamlessly web scrape real estate listings in the UK from Zoopla’s website.</li>
+  <li><strong>CassandraDB</strong> A NoSQL database designed to manage large amounts of data. This is our sink</li>
+  <li><strong>OpenAI</strong> This helps with the querying of property listings on Zoopla’s website.</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="installation">Installation</h3>
+
+<p>Step 1. Clone the repository to your local machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/drjodyannjones/RealEstateDataEngineering.git
+</code></pre></div></div>
+
+<p>Step 2. Building Docker Image:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> my-custom-spark:3.5.0 <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Step 3. Start Docker Container (make sure the Docker client is up and running on your machine first!)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker compose up <span class="nt">-d</span>
+</code></pre></div></div>
+
+<p>Step 3. Start Data Ingestion process:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python main.py
+</code></pre></div></div>
+
+<p>Step 4. Start Spark Consumer:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> realestatedataengineering-spark-master-1 spark-submit <span class="se">\</span>
+    <span class="nt">--packages</span> com.datastax.spark:spark-cassandra-connector_2.12:3.4.1,org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0 <span class="se">\</span>
+    <span class="nb">jobs</span>/spark-consumer.py
+</code></pre></div></div>
+
+<h3 id="sample-code-snippet-spark-consumerpy">Sample Code Snippet: spark-consumer.py</h3>
+
+<p>In this example, I showcase how Apache Spark serves as an efficient consumer by extracting data from Apache Kafka and subsequently storing it in CassandraDB:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">cassandra.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">from_json</span><span class="p">,</span> <span class="n">col</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">,</span> <span class="n">ArrayType</span>
+
+<span class="c1"># Configure logging
+</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="p">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="o">**</span><span class="n">name</span><span class="o">**</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_cassandra_session</span><span class="p">():</span>
+<span class="s">"""Retrieve or create a Cassandra session."""</span>
+<span class="k">if</span> <span class="s">'cassandra_session'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">([</span><span class="s">"cassandra"</span><span class="p">])</span>
+<span class="nb">globals</span><span class="p">()[</span><span class="s">'cassandra_session'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="k">return</span> <span class="nb">globals</span><span class="p">()[</span><span class="s">'cassandra_session'</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">setup_cassandra</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+<span class="s">"""Setup the keyspace and table in Cassandra."""</span>
+<span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">"""
+CREATE KEYSPACE IF NOT EXISTS property_streams
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+"""</span><span class="p">)</span>
+<span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Keyspace created successfully!"</span><span class="p">)</span>
+
+    <span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">"""
+        CREATE TABLE IF NOT EXISTS property_streams.properties (
+            price text, title text, link text, pictures list&lt;text&gt;, floor_plan text,
+            address text, bedrooms text, bathrooms text, receptions text, epc_rating text,
+            tenure text, time_remaining_on_lease text, service_charge text,
+            council_tax_band text, ground_rent text, PRIMARY KEY (link)
+        );
+    """</span><span class="p">)</span>
+    <span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Table created successfully!"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">insert_data</span><span class="p">(</span>\<span class="o">*</span>\<span class="o">*</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="s">"""Insert data into Cassandra table using a session created at the executor."""</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">get_cassandra_session</span><span class="p">()</span>
+<span class="n">session</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="s">"""
+INSERT INTO property_streams.properties (
+price, title, link, pictures, floor_plan, address, bedrooms, bathrooms,
+receptions, epc_rating, tenure, time_remaining_on_lease, service_charge, council_tax_band, ground_rent
+) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+"""</span><span class="p">,</span> <span class="p">(</span>
+<span class="n">kwargs</span><span class="p">[</span><span class="s">'price'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'title'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'link'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'pictures'</span><span class="p">],</span>
+<span class="n">kwargs</span><span class="p">[</span><span class="s">'floor_plan'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'address'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'bedrooms'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'bathrooms'</span><span class="p">],</span>
+<span class="n">kwargs</span><span class="p">[</span><span class="s">'receptions'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'epc_rating'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'tenure'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'time_remaining_on_lease'</span><span class="p">],</span>
+<span class="n">kwargs</span><span class="p">[</span><span class="s">'service_charge'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'council_tax_band'</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'ground_rent'</span><span class="p">]</span>
+<span class="p">))</span>
+<span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Data inserted successfully!"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">define_kafka_to_cassandra_flow</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
+<span class="s">"""Define data flow from Kafka to Cassandra using Spark."""</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"price"</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"title"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"link"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"pictures"</span><span class="p">,</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">StringType</span><span class="p">()),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"floor_plan"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"address"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"bedrooms"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"bathrooms"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"receptions"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"epc_rating"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"tenure"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"time_remaining_on_lease"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"service_charge"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"council_tax_band"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">),</span>
+<span class="n">StructField</span><span class="p">(</span><span class="s">"ground_rent"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="bp">True</span><span class="p">)</span>
+<span class="p">])</span>
+
+    <span class="n">kafka_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">spark</span>
+                <span class="p">.</span><span class="n">readStream</span>
+                <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"kafka"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"kafka.bootstrap.servers"</span><span class="p">,</span> <span class="s">"kafka-broker:9092"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"subscribe"</span><span class="p">,</span> <span class="s">"properties"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"startingOffsets"</span><span class="p">,</span> <span class="s">"earliest"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">load</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"CAST(value AS STRING) as value"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">from_json</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"value"</span><span class="p">),</span> <span class="n">schema</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"data"</span><span class="p">))</span>
+                <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"data.*"</span><span class="p">))</span>
+
+    <span class="n">kafka_df</span><span class="p">.</span><span class="n">writeStream</span><span class="p">.</span><span class="n">foreachBatch</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">batch_df</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">batch_df</span><span class="p">.</span><span class="n">foreach</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">insert_data</span><span class="p">(</span><span class="o">**</span><span class="n">row</span><span class="p">.</span><span class="n">asDict</span><span class="p">())</span>
+        <span class="p">)</span>
+    <span class="p">).</span><span class="n">start</span><span class="p">().</span><span class="n">awaitTermination</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"RealEstateConsumer"</span><span class="p">).</span><span class="n">config</span><span class="p">(</span>
+<span class="s">"spark.cassandra.connection.host"</span><span class="p">,</span> <span class="s">"cassandra"</span>
+<span class="p">).</span><span class="n">config</span><span class="p">(</span>
+<span class="s">"spark.jars.packages"</span><span class="p">,</span>
+<span class="s">"com.datastax.spark:spark-cassandra-connector_2.12:3.4.1,org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0"</span>
+<span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+    <span class="n">session</span> <span class="o">=</span> <span class="n">get_cassandra_session</span><span class="p">()</span>
+    <span class="n">setup_cassandra</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+    <span class="n">define_kafka_to_cassandra_flow</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="o">**</span><span class="n">name</span><span class="o">**</span> <span class="o">==</span> <span class="s">"**main**"</span><span class="p">:</span>
+<span class="n">main</span><span class="p">()</span></code></pre></figure>
+
+
+  
+</article>
+
+
+
+<footer>
+  <div>Made with <b style="color: #f45;">&lt;3</b></div>
+  <nav><a href="mailto:drjodyannjones@gmail.com" ><svg aria-label="Mail" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#envelope"></use></svg></a><a href="https://github.com/drjodyannjones" ><svg aria-label="Github" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#github"></use></svg></a><a href="/feed.xml" ><svg aria-label="Subscribe" class="icon"><use xlink:href="/assets/fontawesome/icons.svg#rss"></use></svg></a></nav>
+
+</footer>
+
+
+</html>
